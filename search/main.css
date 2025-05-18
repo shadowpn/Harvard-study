@@ -1,0 +1,95 @@
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f5f7fa;
+    margin: 0;
+    padding: 20px;
+}
+
+nav {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+}
+
+nav a {
+    margin-left: 20px;
+    text-decoration: none;
+    color: #223116;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+nav a:hover {
+    color: #3c78d8;
+}
+
+
+form {
+    background: #ffffff;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+}
+
+.form-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #223116;
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 12px 18px;
+    border-radius: 30px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+}
+
+input[type="text"]:focus {
+    outline: none;
+    border-color: #3c78d8;
+}
+
+/* Кнопки */
+input[type="submit"],
+input[type="button"] {
+    padding: 12px 24px;
+    border-radius: 30px;
+    background-color: #b9e992;
+    border: none;
+    color: #223116;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+input[type="submit"]:hover,
+input[type="button"]:hover {
+    background-color: #3c78d8;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+footer {
+    position: fixed;
+    bottom: 10px;
+    width: 100%;
+    text-align: center;
+    font-size: 14px;
+    color: #888;
+}
