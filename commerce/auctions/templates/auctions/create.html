@@ -1,0 +1,40 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}Create Listing{% endblock %}
+
+{% block body %}
+<div class="create-container">
+    <h2 class="animated-heading">Create New Listing</h2>
+
+    <form method="post" enctype="multipart/form-data" class="form-wrapper">
+        {% csrf_token %}
+
+        <div class="form-left">
+            <label>Title:</label>
+            {{ form.title }}
+
+            <label>Description:</label>
+            {{ form.description }}
+
+            <label>Starting bid:</label>
+            {{ form.starting_bid }}
+
+            <label>Image URL:</label>
+            {{ form.image_url }}
+
+            <label>Category:</label>
+            {{ form.category }}
+
+            <button type="submit" class="btn-green-purple">Create</button>
+            <p><a href="{% url 'index' %}">← Back to all listings</a></p>
+        </div>
+
+        <div class="form-right">
+            <label>Upload Image File:</label>
+            {{ form.image_file }}
+            <p class="hint-text">Optional: You can upload a file or use a URL above</p>
+            <img id="preview" class="preview-image" src="#" alt="Image preview" style="display:none;">
+        </div>
+    </form>
+</div>
+{% endblock %}

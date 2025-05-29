@@ -1,0 +1,37 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+<h2 class="animated-heading">Active Listings</h2>
+
+<div class="container mt-4">
+  {% for listing in listings %}
+    <div class="card mb-4 shadow-sm">
+      <div class="row g-0">
+        {% if listing.image_url or listing.image_file %}
+          <div class="col-md-4">
+            {% if listing.image_url %}
+              <img src="{{ listing.image_url }}" class="img-fluid rounded-start listing-img" alt="{{ listing.title }}">
+            {% elif listing.image_file %}
+              <img src="{{ listing.image_file.url }}" class="img-fluid rounded-start listing-img" alt="{{ listing.title }}">
+            {% endif %}
+          </div>
+        {% endif %}
+        <div class="col-md-8">
+          <div class="card-body">
+            <h5 class="card-title">
+                <a href="{% url 'listing' listing.id %}" class="text-decoration-none text-primary">
+                  {{ listing.title }}
+                </a>
+              </h5>
+            <p class="card-text">{{ listing.description|truncatewords:30 }}</p>
+            <p class="card-text"><strong>Price:</strong> ${{ listing.current_price }}</p>
+            <p class="card-text"><small class="text-muted">Created {{ listing.created_at|date:"M d, Y, P" }}</small></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% empty %}
+    <p>No active listings.</p>
+  {% endfor %}
+</div>
+{% endblock %}
