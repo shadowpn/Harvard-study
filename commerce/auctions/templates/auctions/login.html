@@ -1,0 +1,32 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="p-4 shadow rounded" style="max-width: 400px; width: 100%; background-color: #f8fff0;">
+        <h3 class="text-center mb-4 text-success fw-bold">Welcome Back 👋</h3>
+
+        {% if message %}
+            <div class="alert alert-danger text-center">{{ message }}</div>
+        {% endif %}
+
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label text-success">Username</label>
+                <input type="text" name="username" class="form-control rounded-pill border-success" placeholder="Enter your username" required>
+            </div>
+            <div class="mb-3">
+                <label class="form-label text-success">Password</label>
+                <input type="password" name="password" class="form-control rounded-pill border-success" placeholder="Enter your password" required>
+            </div>
+            <button type="submit" class="btn btn-success w-100 rounded-pill mt-3">Log In</button>
+        </form>
+
+        <p class="text-center mt-3 mb-0">
+            Don’t have an account? <a href="{% url 'register' %}" class="text-decoration-none text-success fw-semibold">Register here</a>.
+        </p>
+    </div>
+</div>
+{% endblock %}

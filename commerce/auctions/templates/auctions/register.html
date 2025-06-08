@@ -1,0 +1,41 @@
+{% extends "auctions/layout.html" %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;"> 
+ <div class="p-4 shadow rounded" style="max-width: 450px; width: 100%; background-color: #f8fff0;">
+    <h3 class="text-center mb-4 text-success fw-bold">Create Your Account</h3>
+
+    {% if message %}
+        <div class="alert alert-danger text-center">{{ message }}</div>
+    {% endif %}
+
+    <form action="{% url 'register' %}" method="post">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label text-success">Username</label>
+            <input class="form-control rounded-pill border-success" type="text" name="username" placeholder="Choose a username" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label text-success">Email Address</label>
+            <input class="form-control rounded-pill border-success" type="email" name="email" placeholder="Your email" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label text-success">Password</label>
+            <input class="form-control rounded-pill border-success" type="password" name="password" placeholder="Create a password" required>
+        </div>
+        <div class="mb-4">
+            <label class="form-label text-success">Confirm Password</label>
+            <input class="form-control rounded-pill border-success" type="password" name="confirmation" placeholder="Repeat your password" required>
+        </div>
+        <button class="btn btn-success w-100 rounded-pill" type="submit">Register</button>
+    </form>
+
+    <p class="text-center mt-3 mb-0">
+        Already have an account?
+        <a href="{% url 'login' %}" class="text-decoration-none text-success fw-semibold">Log In here.</a>
+    </p>
+ </div>
+</div>
+{% endblock %}

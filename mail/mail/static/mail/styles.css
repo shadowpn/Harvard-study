@@ -1,0 +1,186 @@
+/* ========== BASE STYLES ========== */
+body {
+  background: #f9f9f9;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+h2, h3 {
+  text-align: center;
+  color: #7A4ED9;
+}
+
+/* ========== LOGIN / REGISTER ONLY ========== */
+.auth-wrapper {
+  max-width: 400px;
+  margin: 5vh auto;
+  padding: 30px 25px;
+  border: 2px solid #a7f567;
+  border-radius: 15px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  text-align: center;
+}
+
+.auth-wrapper form {
+  background: white;
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+.auth-wrapper input[type="text"],
+.auth-wrapper input[type="email"],
+.auth-wrapper input[type="password"] {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 1em;
+}
+
+.auth-wrapper .btn-primary {
+  background: linear-gradient(135deg, #7A4ED9, #A8FF60);
+  color: white;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  width: 100%;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+}
+
+.auth-wrapper .btn-primary:hover {
+  transform: scale(1.02);
+  opacity: 0.95;
+}
+
+.form-note {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.form-note a {
+  color: #4f46e5;
+  text-decoration: underline;
+}
+
+/* ========== MAIL UI ========== */
+.mail-wrapper {
+  padding: 20px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.mail-header {
+  text-align: center;
+  color: #7A4ED9;
+  font-size: 1.5em;
+  margin-bottom: 20px;
+}
+
+.mail-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.mail-buttons .btn-sm {
+  padding: 8px 16px;
+  background: #7A4ED9;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.mail-buttons .btn-sm:hover {
+  opacity: 0.95;
+}
+
+.mail-buttons .nav-active {
+  background-color: #7A4ED9;
+  color: white;
+}
+
+#emails-view, #compose-view, #email-view {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  margin-top: 20px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.email-item {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 10px 0;
+  background-color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.email-item:hover {
+  background-color: #f6f6f6;
+}
+
+.email-item.read {
+  background-color: #efefef;
+}
+
+textarea.form-control, input.form-control {
+  margin-bottom: 15px;
+}
+
+input[type="submit"], .btn-primary {
+  background: linear-gradient(135deg, #7A4ED9, #A8FF60);
+  color: white;
+  font-weight: bold;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+}
+
+.action-buttons {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+  }
+  
+  .action-buttons .btn-sm {
+    padding: 8px 16px;
+    background: #A8FF60;
+    color: black;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+  }
+  
+  .action-buttons .btn-sm:hover {
+    opacity: 0.95;
+  }
+
+  /* Highlight active tab */
+.mail-buttons .active-tab {
+    background: #ad91ea !important;
+    color: white !important;
+    box-shadow: 0 0 0 2px #a8ff60 inset;
+    font-weight: bold;
+  }
+  

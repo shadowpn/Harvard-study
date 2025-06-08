@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Search</title>
+    <link href="main.css" rel="stylesheet">
+</head>
+<body>
+    <nav>
+        <a href="images.html">Image Search</a>
+        <a href="advanced.html">Advanced Search</a>
+    </nav>
+
+    <form action="https://www.google.com/search" method="get">
+        <h2 class="form-title">What are you curious about today?</h2>
+        <input type="text" name="q" placeholder="Search Google">
+        <br>
+        <input type="submit" value="Google Search">
+        <input type="button" value="I'm Feeling Lucky"
+            onclick="location.href='https://www.google.com/search?q=' + encodeURIComponent(document.querySelector('input[name=q]').value) + '&btnI=I';">
+    </form>
+
+    <footer>&copy; 2025 Sense Power Digital</footer>
+</body>
+</html>

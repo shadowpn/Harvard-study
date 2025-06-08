@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Search</title>
+    <link href="main.css" rel="stylesheet">
+    <style>
+        form {
+            text-align: left;
+            display: inline-block;
+        }
+
+        input[type="text"] {
+            width: 300px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="index.html">Google Search</a>
+        <a href="images.html">Image Search</a>
+    </nav>
+
+    <form action="https://www.google.com/search" method="get">
+        <label>Find pages with…</label><br>
+        <input type="text" name="as_q" placeholder="All these words"><br>
+        <input type="text" name="as_epq" placeholder="This exact word or phrase"><br>
+        <input type="text" name="as_oq" placeholder="Any of these words"><br>
+        <input type="text" name="as_eq" placeholder="None of these words"><br>
+        <input type="submit" value="Advanced Search" style="background-color: #4d90fe; color: white;">
+
+    </form>
+</body>
+
+</html>
