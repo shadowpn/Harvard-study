@@ -1,0 +1,33 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block body %}
+<div class="neumorphic-login-wrapper wide-posts-wrapper">
+  <h2 class="text-center mb-4">{{ profile_user.username }}'s Profile</h2>
+
+  <div class="mb-3 text-center">
+    <p><strong>Followers:</strong> {{ followers_count }}</p>
+    <p><strong>Following:</strong> {{ following_count }}</p>
+
+    {% if user.is_authenticated and user != profile_user %}
+      <form action="{% url 'toggle_follow' profile_user.username %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="neumorphic-button">
+          {% if is_following %}Unfollow{% else %}Follow{% endif %}
+        </button>
+      </form>
+    {% endif %}
+  </div>
+
+  <div class="posts-block" id="posts-container"></div>
+  {{ serialized_posts|json_script:"profile-posts" }}
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const posts = JSON.parse(document.getElementById('profile-posts').textContent);
+      const container = document.querySelector('#posts-container');
+      posts.forEach(post => render_post(post, container));
+    });
+  </script>
+</div>
+{% endblock %}

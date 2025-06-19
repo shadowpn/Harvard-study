@@ -1,0 +1,241 @@
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: #f1f1f1;
+    margin: 0;
+    padding: 0;
+  }
+
+  .logo-container {
+    width: 140px;
+    height: 60px;
+    margin-right: 10px;
+  }
+  
+  .logo {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+    
+.neumorphic-login-wrapper {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 30px;
+  border-radius: 25px;
+  background: #e0e5ec;
+  box-shadow: 9px 9px 16px #bebebe, -9px -9px 16px #ffffff;
+}
+
+.wide-posts-wrapper {
+  max-width: 1200px;
+}
+
+.neumorphic-input-wrapper {
+    margin-bottom: 20px;
+  }
+  
+.neumorphic-input {
+    width: 100%;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 50px;
+    background: #dce3f0;
+    box-shadow: inset 6px 6px 10px #c2c9d6,
+                inset -6px -6px 10px #f6f9ff;
+    font-size: 16px;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .neumorphic-input:focus {
+    outline: none;
+    box-shadow: inset 4px 4px 8px #c2c9d6,
+                inset -4px -4px 8px #f6f9ff;
+  }
+  
+  .neumorphic-button {
+    width: 30%;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 50px;
+    background: #dce3f0;
+    box-shadow: 6px 6px 12px #c2c9d6,
+                -6px -6px 12px #f6f9ff;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+  }
+  
+  .neumorphic-button:hover {
+    box-shadow: inset 6px 6px 12px #c2c9d6,
+                inset -6px -6px 12px #f6f9ff;
+  }
+  
+  .neumorphic-pagination .page-link {
+    border: none;
+    border-radius: 12px;
+    padding: 8px 14px;
+    margin: 0 4px;
+    background: #e0e0e0;
+    box-shadow: 6px 6px 12px #bebebe, -6px -6px 12px #ffffff;
+    color: #333;
+    transition: all 0.2s ease-in-out;
+    text-decoration: none;
+  }
+  
+  .neumorphic-pagination .page-link:hover {
+    background: #dcdcdc;
+  }
+  
+  .neumorphic-pagination .active .page-link {
+    background: #b4b4ff;
+    box-shadow: inset 4px 4px 8px #a0a0a0, inset -4px -4px 8px #ffffff;
+    color: #000;
+    font-weight: bold;
+  }
+  
+  .neumorphic-navbar {
+    box-shadow: 5px 5px 15px #c8d0e7, -5px -5px 15px #ffffff;
+    padding: 10px 20px;
+    border-radius: 16px;
+    margin: 20px auto;
+    width: fit-content;
+    background-color: #e0e5ec;
+  }
+  
+  .neumorphic-body {
+    background-color: #e0e5ec;
+    min-height: 100vh;
+    padding-bottom: 50px;
+  }
+  
+  .active-nav {
+    background-color: #e0e5ec;
+    box-shadow: inset 3px 3px 6px #c8d0e7, inset -3px -3px 6px #ffffff;
+    border-radius: 12px;
+    padding: 6px 14px;
+    color:#4f4fef;
+  }
+  
+  .container {
+    max-width: 700px;
+    margin: 40px auto;
+    background: white;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.05);
+  }
+  
+  #new-post-form textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1em;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    resize: vertical;
+  }
+  
+  #submit-post {
+    margin-top: 10px;
+  }
+  
+  .post {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 15px 20px;
+    margin-top: 20px;
+    background: #fff;
+  }
+  
+  .post:first-child {
+    margin-top: 0;
+  }
+  
+  .post .author {
+    font-weight: bold;
+    font-size: 1.1em;
+  }
+  
+  .post .timestamp {
+    float: right;
+    color: #3d3333;
+    font-size: 0.9em;
+    font-weight: 700;
+  }
+  
+  .post .content {
+    margin: 10px 0;
+  }
+  
+  .likes {
+    color: rgb(35, 33, 33);
+    font-size: 1em;
+  }
+
+  .new-post-block {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 20px;
+    background: #fff;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  }  
+
+  .post-card {
+    background: #e0e5ec;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 16px;
+    box-shadow: 8px 8px 16px #bebebe, -8px -8px 16px #ffffff;
+    transition: transform 0.2s;
+  }
+  
+  .post-card:hover {
+    transform: translateY(-2px);
+  }
+  
+  .post-actions button {
+    margin-left: 8px;
+  }
+  
+  /* Анимация появления */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animated-buttons {
+  animation: fadeInUp 0.4s ease-out;
+}
+
+.neumorphic-button-action {
+  border: none;
+  padding: 6px 16px;
+  border-radius: 12px;
+  background: #e0e5ec;
+  box-shadow:  5px 5px 15px #a3b1c6,
+              -5px -5px 15px #ffffff;
+  color: #333;
+  font-weight: 500;
+  margin-left: 8px;
+  transition: 0.2s ease-in-out;
+}
+.neumorphic-button-action:hover {
+  box-shadow: inset 5px 5px 15px #a3b1c6,
+              inset -5px -5px 15px #ffffff;
+  cursor: pointer;
+}
+.neumorphic-button-delete {
+  color: #dc2638;
+  font-weight: 600;
+}
+.neumorphic-button-edit {
+  color: #007bff;
+  font-weight: 600;
+}
+  

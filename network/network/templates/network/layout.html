@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{% block title %}Social Network{% endblock %}</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" crossorigin="anonymous">
+    <link href="{% static 'network/styles.css' %}" rel="stylesheet">
+    <link rel="icon" href="{% static 'network/favicon.ico' %}" type="image/x-icon">
+</head>
+<body class="neumorphic-body">
+    
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between neumorphic-navbar">
+      <div class="logo-container">
+        <img src="{% static 'network/Logo_sense.png' %}" alt="Logo Sense Power Digial" class="logo">
+      </div>  
+      <a class="navbar-brand font-weight-bold" href="#">Network</a>
+
+        <div class="mx-auto d-flex justify-content-center">
+            <ul class="navbar-nav flex-row gap-3">
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link font-weight-bold {% if request.path|slice:":9" == "/profile/" %}active-nav{% endif %}" 
+                           href="{% url 'profile' user.username %}">
+                           {{ user.username }}
+                        </a>
+                    </li>
+                {% endif %}
+
+                <li class="nav-item">
+                    <a class="nav-link {% if request.path == '/' %}active-nav{% endif %}" href="{% url 'index' %}">All Posts</a>
+                </li>
+
+                {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/following' %}active-nav{% endif %}" href="{% url 'following' %}">Following</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                    </li>
+                {% else %}
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/login' %}active-nav{% endif %}" href="{% url 'login' %}">Log In</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.path == '/register' %}active-nav{% endif %}" href="{% url 'register' %}">Register</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="body">
+        {% block body %}{% endblock %}
+    </div>
+
+    {% block script %}
+        <script src="{% static 'network/main.js' %}"></script>
+    {% endblock %}
+</body>
+</html>

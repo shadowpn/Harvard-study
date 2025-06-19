@@ -1,0 +1,31 @@
+{% extends "network/layout.html" %}
+{% load static %}
+
+{% block body %}
+<div class="neumorphic-login-wrapper">
+  <h2 class="text-center mb-4">Register</h2>
+
+  {% if message %}
+    <div class="alert alert-danger text-center">{{ message }}</div>
+  {% endif %}
+
+  <form action="{% url 'register' %}" method="post">
+    {% csrf_token %}
+    <div class="neumorphic-input-wrapper">
+      <input autofocus type="text" name="username" placeholder="Username" class="neumorphic-input" required>
+    </div>
+    <div class="neumorphic-input-wrapper">
+      <input type="email" name="email" placeholder="Email Address" class="neumorphic-input" required>
+    </div>
+    <div class="neumorphic-input-wrapper">
+      <input type="password" name="password" placeholder="Password" class="neumorphic-input" required>
+    </div>
+    <div class="neumorphic-input-wrapper">
+      <input type="password" name="confirmation" placeholder="Confirm Password" class="neumorphic-input" required>
+    </div>
+    <button type="submit" class="neumorphic-button">Register</button>
+  </form>
+
+  <p class="text-center mt-3">Already have an account? <a href="{% url 'login' %}">Log In here.</a></p>
+</div>
+{% endblock %}
