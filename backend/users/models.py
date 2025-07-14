@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
+from courses.models import Course
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -23,6 +24,7 @@ class CustomUser(AbstractUser):
     last_name = models.CharField(max_length=30)
     phone = models.CharField(max_length=20, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    enrolled_courses = models.ManyToManyField(Course, blank=True, related_name="enrolled_users")
     
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

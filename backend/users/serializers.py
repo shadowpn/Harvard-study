@@ -2,6 +2,8 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from courses.serializers import CourseSerializer  # импорт сериалайзера курса
+
 User = get_user_model()
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=True, validators=[validate_password])
@@ -29,6 +31,8 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         return data   
     
 class UserSerializer(serializers.ModelSerializer):
+    enrolled_courses = CourseSerializer(many=True, read_only=True)
+    
     class Meta:
-        model = User
-        fields = ('id', 'email', 'first_name', 'last_name', 'phone')
+        model = get_user_model()
+        fields = ['id', 'email', 'first_name', 'last_name', 'phone', 'created_at', 'enrolled_courses']
