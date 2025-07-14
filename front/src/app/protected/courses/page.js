@@ -1,5 +1,4 @@
 'use client';
-
 import { useEffect, useState } from "react";
 
 export default function CoursesPage() {
@@ -24,15 +23,12 @@ export default function CoursesPage() {
         setLoading(false);
       });
   }, []);
-
   if (loading) {
     return <p className="text-center mt-10 text-lg">Загрузка курсов...</p>;
   }
-
   if (error) {
     return <p className="text-center mt-10 text-red-600">Ошибка: {error}</p>;
   }
-
   return (
     <section className="p-6">
       <h1 className="text-3xl font-bold mb-8 text-center">Our Courses</h1>

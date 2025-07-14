@@ -12,17 +12,27 @@ export default function EnrolledCard({ course }) {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setToken(localStorage.getItem('access'));
+      const storedToken = localStorage.getItem('access');
+      if (storedToken) {
+        setToken(storedToken);
+      }
     }
   }, []);
 
   const handleStart = () => {
-    router.push(`/courses/${course.slug}`);
+    if (!token) {
+      alert('Сессия истекла. Пожалуйста, войдите снова.');
+      router.push('/auth');
+      return;
+    }
+
+    router.push(`/protected/courses/${course.slug}`);
   };
 
   const handleDelete = async () => {
     if (!token) {
       alert('Вы не авторизованы.');
+      router.push('/auth');
       return;
     }
 
@@ -38,20 +48,22 @@ export default function EnrolledCard({ course }) {
       });
 
       if (!response.ok) {
+        if (response.status === 401) {
+          alert('Сессия истекла. Пожалуйста, войдите снова.');
+          router.push('/auth');
+          return;
+        }
         throw new Error('Failed to delete course');
       }
 
-      // Удаляем курс из localStorage
       const saved = JSON.parse(localStorage.getItem('purchasedCourses')) || [];
       const updated = saved.filter((id) => id !== course.id);
       localStorage.setItem('purchasedCourses', JSON.stringify(updated));
 
-      alert('Course removed from dashboard.');
-
+      alert('Курс удалён с панели.');
       setTimeout(() => {
-        console.log('⏳ Refresh triggered');
         router.refresh();
-      }, 3000);
+      }, 1500);
 
     } catch (error) {
       console.error('Delete error:', error);
