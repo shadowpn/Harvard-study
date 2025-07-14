@@ -1,5 +1,21 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+    images: {
+      remotePatterns: [
+        {
+          protocol: 'http',
+          hostname: 'localhost',
+          port: '8000',
+          pathname: '/media/**',
+        },
+        {
+          protocol: 'https',
+          hostname: 'your-backend-domain.com', // заменишь на домен Render или другого хоста
+          pathname: '/media/**',
+        },
+      ],
+    },
+  
     async rewrites() {
       return [
         {
@@ -19,3 +35,4 @@ const nextConfig = {
   };
   
   export default nextConfig;
+  

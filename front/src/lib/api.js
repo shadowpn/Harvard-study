@@ -25,3 +25,8 @@ export async function loginUser(data) {
   if (!res.ok) throw new Error("Login failed");
   return res.json();
 }
+
+export function getAuthHeader() {
+  const token = localStorage.getItem("accessToken");
+  return token ? { Authorization: `Bearer ${token}` } : {};
+}
