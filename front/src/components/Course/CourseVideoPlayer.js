@@ -1,14 +1,16 @@
 // components/Course/CourseVideoPlayer.js
+'use client';
+
 export default function CourseVideoPlayer({ videoUrl }) {
-    return (
-      <div className="w-full h-[700px] mb-8">
-        <iframe
-          className="w-full h-full rounded-xl shadow-md"
-          src={videoUrl}
-          title="Course video"
-          allowFullScreen
-        ></iframe>
-      </div>
-    );
-  }
-  
+  return (
+    <div className="mb-8">
+      <video
+        src={videoUrl}
+        controls
+        preload="metadata"
+        crossOrigin="anonymous"
+        className="w-full rounded-xl shadow-lg"
+      />
+    </div>
+  );
+}

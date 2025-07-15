@@ -6,17 +6,24 @@ export default function CourseDescription({ text }) {
   const preview = text.slice(0, 300);
 
   return (
-    <div className="mb-8">
-      <h2 className="text-xl font-semibold mb-2">Course Description</h2>
-      <p className="text-gray-700">
+    <section className="mb-8 bg-white rounded-xl shadow-md p-6">
+      <h2 className="text-2xl font-semibold mb-4 text-gray-800">
+        Course Description
+      </h2>
+      <p className="text-gray-700 leading-relaxed">
         {expanded ? text : `${preview}...`}
-        <button
-          onClick={() => setExpanded(!expanded)}
-          className="ml-2 text-blue-600 underline text-sm"
-        >
-          {expanded ? 'Show less' : 'Read more'}
-        </button>
       </p>
-    </div>
+      <button
+        onClick={() => setExpanded(!expanded)}
+        className="mt-3 inline-block 
+                text-blue-500        /* заменили 600 → 800 */
+                hover:text-blue-700  /* более тёмный ховер */
+                  transition-colors 
+                  font-semibold        /* полужирный */
+                  text-sm"
+      >
+        {expanded ? 'Show less' : 'Read more'}
+      </button>
+    </section>
   );
 }

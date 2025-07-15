@@ -56,3 +56,46 @@ h3 {
   background: rgba(0, 0, 0, 0.2);
   border-radius: 1px;
 }
+
+@keyframes gradientWave {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.animate-gradient {
+  background-image: linear-gradient(
+    270deg,
+    #a78bfa,
+    #60a5fa,
+    #34d399,
+    #f472b6,
+    #a78bfa
+  );
+  background-size: 400% 400%;
+  animation: gradientWave 10s ease infinite;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 34px;
+  text-align: center;
+
+  /* По умолчанию центр — для десктопа */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+@media (max-width: 768px) {
+  .animate-gradient {
+    font-size: 18px;
+    left: 30%;
+  }
+}
+

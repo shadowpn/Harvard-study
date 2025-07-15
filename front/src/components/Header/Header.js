@@ -27,8 +27,9 @@ export default function Header() {
     <header className={styles.header}>
       <nav className={styles.nav}>
         {/* Центр – логотип */}
-        <div className={styles.logoCenter}>
-          <Logo className="relative w-36 h-20" />
+        <div className="text-3xl sm:text-4xl md:text-4xl font-bold text-transparent bg-clip-text animate-gradient">
+          <Image src="/icons/learnhub.png" alt="Sense StudyHub" width={40} height={40} className="mr-2" />
+          Sense StudyHub
         </div>
 
         {/* Справа – аватар и выход */}
