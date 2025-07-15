@@ -9,6 +9,7 @@ class CourseSerializer(serializers.ModelSerializer):
         fields = '__all__'
         
     def get_video_file(self, obj):
-        if obj.video:
-            return obj.video.url
+        request = self.context.get('request')
+        if obj.video and request:
+            return request.build_absolute_uri(obj.video.url)
         return None
