@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 
 class Course(models.Model):
@@ -28,6 +29,27 @@ class Course(models.Model):
 
     def __str__(self):
         return self.title
+    
+class Comment(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE,
+                             related_name='comments')
+    course = models.ForeignKey('Course',
+                               on_delete=models.CASCADE,
+                               related_name='comments')
+    parent = models.ForeignKey('self',
+                               null=True,
+                               blank=True,
+                               on_delete=models.CASCADE,
+                               related_name='replies')
+    text = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']  # новые сначала
+
+    def __str__(self):
+        return f'{self.user} → {self.course}'    
 
 
 
