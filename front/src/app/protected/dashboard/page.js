@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Image from 'next/image';
 import EnrolledCard from '@/components/EnrolledCard/EnrolledCard';
+import { authorizedFetch } from '@/utils/authHelpers';
+
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function Dashboard() {
   const router = useRouter();
@@ -17,10 +20,7 @@ export default function Dashboard() {
       return;
     }
   
-    // Получаем пользователя
-    fetch("http://localhost:8000/api/user/", {
-      headers: { Authorization: `Bearer ${token}` },
-    })
+    authorizedFetch(`${BASE_URL}/user/`)
       .then((res) => {
         if (!res.ok) throw new Error("Invalid token");
         return res.json();
@@ -35,26 +35,21 @@ export default function Dashboard() {
         router.push("/auth");
       });
   
-    // ✅ Получаем список зачисленных курсов
-    fetch("http://localhost:8000/api/enrolled-courses/", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    authorizedFetch(`${BASE_URL}/enrolled-courses/`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch enrolled courses");
         return res.json();
       })
       .then((data) => {
-        setCourses(data);         // Обновляем стейт
+        setCourses(data);
         setLoading(false);
       })
       .catch((err) => {
         console.error("Failed to load courses", err);
         setLoading(false);
       });
-  }, []);  
-
+  }, []);
+  
   const handleUnenroll = (courseId) => {
     setCourses(prev => prev.filter(course => course.id !== courseId));
   };

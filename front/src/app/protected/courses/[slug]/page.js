@@ -7,6 +7,9 @@ import CourseVideoPlayer from '@/components/Course/CourseVideoPlayer';
 import CourseDescription from '@/components/Course/CourseDescription';
 import CourseComments from '@/components/Course/CourseComments';
 import Breadcrumbs from '@/components/Breadcrumbs/Breadcrumbs';
+import { authorizedFetch } from '@/utils/authHelpers';
+
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function CoursePage() {
   const { slug } = useParams();
@@ -14,13 +17,19 @@ export default function CoursePage() {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:8000/api/courses/${slug}/`)
-      .then(res => {
+    const loadCourse = async () => {
+      try {
+        const res = await authorizedFetch(`${BASE_URL}/courses/${slug}/`);
         if (!res.ok) throw new Error('Failed to fetch course');
-        return res.json();
-      })
-      .then(data => setCourse(data))
-      .catch(err => setError(err.message));
+        const data = await res.json();
+        setCourse(data);
+      } catch (err) {
+        console.error('Course load error:', err);
+        setError(err.message);
+      }
+    };
+
+    loadCourse();
   }, [slug]);
 
   if (error) return <div className="p-4 text-red-600">Ошибка: {error}</div>;
@@ -34,7 +43,6 @@ export default function CoursePage() {
       </h1>
 
       <CourseVideoPlayer videoUrl={course.video} />
-
       <CourseDescription text={course.description} />
       <CourseComments />
     </main>

@@ -3,18 +3,30 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import { authorizedFetch } from '@/utils/authHelpers'; // ✅ Добавили
+
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function Sidebar() {
   const pathname = usePathname();
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedData = localStorage.getItem('userData');
-      if (storedData) {
-        setUserData(JSON.parse(storedData));
+    const fetchUser = async () => {
+      try {
+        const res = await authorizedFetch(`${BASE_URL}/user/`);
+        if (!res.ok) throw new Error('Failed to fetch user');
+        const data = await res.json();
+        setUserData(data);
+
+        // 💾 Сохраняем в localStorage, если хочешь кэшировать
+        localStorage.setItem('userData', JSON.stringify(data));
+      } catch (err) {
+        console.error('Ошибка получения пользователя:', err);
       }
-    }
+    };
+
+    fetchUser();
   }, []);
 
   const menu = [

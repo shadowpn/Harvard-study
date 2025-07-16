@@ -2,12 +2,12 @@
 import styles from './Header.module.css';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import Logo from "@/components/Logo";
 import Image from 'next/image';
+import { logoutUser } from '@/utils/authHelpers';
 
 export default function Header() {
   const router = useRouter();
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     const data = localStorage.getItem('userData');
@@ -17,9 +17,7 @@ export default function Header() {
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('access');
-    localStorage.removeItem('refresh');
-    localStorage.removeItem('userData');
+    logoutUser();
     router.push('/auth');
   };
 

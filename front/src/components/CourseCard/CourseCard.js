@@ -3,82 +3,55 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import BaseCourseCard from '../BaseCourseCard/BaseCourseCard';
-import { refreshToken } from '@/utils/authHelpers';
+import { authorizedFetch } from '@/utils/authHelpers';
 import Image from 'next/image';
+
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function CourseCard({ course }) {
   const [flipped, setFlipped] = useState(false);
   const [added, setAdded] = useState(false);
-
-  useEffect(() => {
-   if (typeof window !== 'undefined') {
-     const saved = JSON.parse(localStorage.getItem("purchasedCourses")) || [];
-     setAdded(saved.includes(course.id));
-   }
- }, [course.id]);
-
   const router = useRouter();
 
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const saved = JSON.parse(localStorage.getItem("purchasedCourses")) || [];
+      setAdded(saved.includes(course.id));
+    }
+  }, [course.id]);
+
   const handleBuy = async (courseId) => {
-  let token = localStorage.getItem("access");
-
-  if (!token) {
-    console.error("No access token found");
-    alert("Please log in to enroll");
-    return;
-  }
-
-  try {
-    let response = await fetch('http://localhost:8000/api/courses/enroll/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
-      },
-      body: JSON.stringify({ courseId })
-    });
-
-    // Обновление токена при необходимости
-    if (response.status === 401) {
-      const newToken = await refreshToken();
-      if (!newToken) {
-        alert("Session expired. Please log in again.");
-        return;
-      }
-
-      response = await fetch('http://localhost:8000/api/courses/enroll/', {
+    try {
+      let response = await authorizedFetch(`${BASE_URL}/courses/enroll/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${newToken}`
         },
-        body: JSON.stringify({ courseId })
+        body: JSON.stringify({ courseId }),
       });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error("Enroll error:", errorData);
+        alert("Something went wrong while enrolling.");
+        return;
+      }
+
+      const saved = JSON.parse(localStorage.getItem("purchasedCourses")) || [];
+      const updated = [...new Set([...saved, courseId])];
+      localStorage.setItem("purchasedCourses", JSON.stringify(updated));
+
+      alert("Enrolled successfully!");
+      setAdded(true);
+
+      setTimeout(() => {
+        router.push('/dashboard');
+      }, 2000);
+    } catch (error) {
+      console.error('Enrollment error:', error);
+      alert('Something went wrong while enrolling.');
     }
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error("Enroll error:", errorData);
-      alert("Something went wrong while enrolling.");
-      return;
-    }
-
-    // ✅ Добавим в localStorage
-    const saved = JSON.parse(localStorage.getItem("purchasedCourses")) || [];
-    const updated = [...new Set([...saved, courseId])];
-    localStorage.setItem("purchasedCourses", JSON.stringify(updated));
-
-    alert("Enrolled successfully!");
-setAdded(true);
-
-setTimeout(() => {
-  router.push('/dashboard');
-}, 2000);
-  } catch (error) {
-    console.error('Enrollment error:', error);
-    alert('Something went wrong while enrolling.');
-  }
-};
+  };
 
   const handleFlip = () => setFlipped(!flipped);
   const handleImageClick = () => router.push(`/courses/${course.slug}`);
@@ -100,7 +73,6 @@ setTimeout(() => {
         {/* Front Side */}
         <div className="absolute w-full h-full bg-white rounded-2xl shadow-xl overflow-hidden backface-hidden flex flex-col">
           <BaseCourseCard course={course} onClick={handleImageClick}>
-            {/* Info block */}
             <div className="text-sm text-gray-700 space-y-1 mb-4 mt-auto">
               <p>
                 <Image src="/icons/rating.png" width={20} height={20} alt="Rating Icon" className="inline-block mr-1" unoptimized />
@@ -108,25 +80,21 @@ setTimeout(() => {
                 <Image src="/icons/enroled.png" width={20} height={20} alt="Enrolled Icon" className="inline-block mr-1 ml-2" unoptimized />
                 {course.enrolled}
               </p>
-
               <p>
                 <Image src="/icons/pricing.png" width={20} height={20} alt="Price Icon" className="inline-block mr-1" unoptimized />
                 ${course.price} &nbsp;
                 <Image src="/icons/duration.png" width={20} height={20} alt="Duration Icon" className="inline-block mr-1" unoptimized />
                 {course.duration} hours
               </p>
-
               <p>
                 <Image src="/icons/start_course.png" width={20} height={20} alt="Start Date Icon" className="inline-block mr-1" unoptimized />
                 Start: {course.start_date}
               </p>
-
               <p>
                 <span className={`inline-block ${levelColor} px-2 py-0.5 rounded text-xs mr-2`}>
                   <Image src="/icons/level.png" width={20} height={20} alt="Level Icon" className="inline-block mr-1" unoptimized />
                   {course.level}
                 </span>
-
                 <span className="inline-block bg-green-100 text-green-800 px-2 py-0.5 rounded text-xs">
                   <Image src="/icons/certificate.png" width={20} height={20} alt="Certificate Icon" className="inline-block mr-1" unoptimized />
                   Certificate
@@ -145,7 +113,6 @@ setTimeout(() => {
               >
                 {added ? 'Added' : 'Buy'}
               </button>
-
               <button
                 className="border border-gray-300 text-gray-700 hover:bg-gray-100 px-4 py-2 rounded w-1/2"
                 onClick={handleFlip}
@@ -157,7 +124,7 @@ setTimeout(() => {
         </div>
 
         {/* Back Side */}
-        <div className="absolute w-full h-full bg-gray-100 rounded-2xl shadow-xl p-5 backface-hidden rotate-y-180 flex flex-col justify-between scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 hover:scrollbar-thumb-gray-500">
+        <div className="absolute w-full h-full bg-gray-100 rounded-2xl shadow-xl p-5 backface-hidden rotate-y-180 flex flex-col justify-between">
           <div>
             <h3 className="text-xl font-bold text-gray-800 mb-4">About course</h3>
             <div className="text-sm text-gray-700 h-[370px] overflow-y-auto pr-2 mb-4 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-gray-100 hover:scrollbar-thumb-gray-500">
@@ -173,7 +140,6 @@ setTimeout(() => {
         </div>
       </div>
 
-      {/* 3D Style */}
       <style jsx>{`
         .perspective {
           perspective: 1000px;

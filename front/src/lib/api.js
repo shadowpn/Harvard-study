@@ -1,4 +1,4 @@
-const BASE_URL = "http://127.0.0.1:8000/api";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export async function registerUser(data) {
   const res = await fetch(`${BASE_URL}/users/register/`, {
@@ -23,7 +23,19 @@ export async function loginUser(data) {
   });
 
   if (!res.ok) throw new Error("Login failed");
-  return res.json();
+
+  const result = await res.json();
+
+  // ✅ Сохраняем токены
+  localStorage.setItem("access", result.access);
+  localStorage.setItem("refresh", result.refresh);
+
+  // ✅ (если backend возвращает user данные)
+  if (result.user) {
+    localStorage.setItem("userData", JSON.stringify(result.user));
+  }
+
+  return result;
 }
 
 export function getAuthHeader() {

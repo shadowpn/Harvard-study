@@ -1,16 +1,18 @@
-"use client";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import styles from "./AuthPanel.module.css";
+'use client';
 
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import styles from './AuthPanel.module.css';
+
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 export default function AuthPanel() {
   const [isLogin, setIsLogin] = useState(true);
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    first_name: "",
-    last_name: "",
-    phone: ""
+    email: '',
+    password: '',
+    first_name: '',
+    last_name: '',
+    phone: ''
   });
   const router = useRouter();
 
@@ -21,60 +23,77 @@ export default function AuthPanel() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    const url = isLogin ? "http://localhost:8000/api/login/" : "http://localhost:8000/api/register/";
+
+    const url = isLogin
+      ? `${BASE_URL}/login/`
+      : `${BASE_URL}/register/`;
+
     const payload = isLogin
       ? {
           email: formData.email,
           password: formData.password
         }
-      : {     
+      : {
           first_name: formData.first_name,
           last_name: formData.last_name,
           phone: formData.phone,
           email: formData.email,
-          password: formData.password,
+          password: formData.password
         };
-  
+
     try {
       const res = await fetch(url, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
-  
-      // 💡 Предпроверка перед res.json()
-    const text = await res.text();
 
-    let data;
-    try {
-      data = JSON.parse(text);
-    } catch (err) {
-      console.error("❌ Ответ не JSON:", text);
-      alert("Invalid server response. Try again later.");
-      return;
-    }
-
-    if (res.ok) {
-      if (isLogin) {
-        localStorage.setItem("access", data.access);
-        localStorage.setItem("refresh", data.refresh);
-        router.push("/dashboard");
-      } else {
-        alert("Registration successful! Please login.");
-        setIsLogin(true);
+      const text = await res.text();
+      let data;
+      try {
+        data = JSON.parse(text);
+      } catch (err) {
+        console.error('❌ Ответ не JSON:', text);
+        alert('Invalid server response. Try again later.');
+        return;
       }
-    } else {
-      console.log("❌ Ошибка при логине:", data);
-      alert(data.detail || data.message || "Something went wrong");
+
+      if (res.ok) {
+        if (isLogin) {
+          // ✅ Сохраняем токены
+          localStorage.setItem('access', data.access);
+          localStorage.setItem('refresh', data.refresh);
+
+          // ✅ Получаем userData
+          try {
+            const resUser = await fetch(`${BASE_URL}/user/`, {
+              headers: {
+                Authorization: `Bearer ${data.access}`
+              }
+            });
+
+            if (resUser.ok) {
+              const user = await resUser.json();
+              localStorage.setItem('userData', JSON.stringify(user));
+            }
+          } catch (e) {
+            console.warn('Cant came is userData:', e);
+          }
+
+          router.push('/dashboard');
+        } else {
+          alert('Registration successful! Please log in.');
+          setIsLogin(true);
+        }
+      } else {
+        console.log('❌ Error in login or password:', data);
+        alert(data.detail || data.message || 'Something went wrong');
+      }
+    } catch (error) {
+      console.error('Network error:', error);
+      alert('Network error');
     }
-  } catch (error) {
-    console.error("Network error:", error);
-    alert("Network error");
-  }
-}; 
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -84,8 +103,8 @@ export default function AuthPanel() {
             isLogin ? styles.topLeft : styles.bottomRight
           }`}
         >
-          <h2 className={`${styles.heading} ${!isLogin ? styles.rotated : ""}`}>
-            {isLogin ? "Welcome" : "Join with us"}
+          <h2 className={`${styles.heading} ${!isLogin ? styles.rotated : ''}`}>
+            {isLogin ? 'Welcome' : 'Join with us'}
           </h2>
         </div>
 
@@ -94,7 +113,7 @@ export default function AuthPanel() {
             isLogin ? styles.rightForm : styles.leftForm
           }`}
         >
-          <h3>{isLogin ? "Login to StudyHub" : "Register for StudyHub"}</h3>
+          <h3>{isLogin ? 'Login to StudyHub' : 'Register for StudyHub'}</h3>
           <form onSubmit={handleSubmit}>
             {!isLogin && (
               <>
@@ -141,7 +160,7 @@ export default function AuthPanel() {
               required
             />
             <button type="submit" className={styles.button}>
-              {isLogin ? "Sign in" : "Sign up"}
+              {isLogin ? 'Sign in' : 'Sign up'}
             </button>
           </form>
 

@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 
+
 export default function BaseCourseCard({ course, children, onImageClick }) {
   return (
     <div className="relative w-full max-w-sm h-[500px] bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col">

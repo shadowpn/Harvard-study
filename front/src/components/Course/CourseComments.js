@@ -2,18 +2,21 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
+import { authorizedFetch } from '@/utils/authHelpers'; // ✅ Добавили
 
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 export default function CourseComments() {
   const { slug } = useParams();
   const [comments, setComments] = useState([]);
   const [newText, setNewText] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Загружаем комментарии при монтировании
+
+  // ✅ Получение комментариев
   const fetchComments = useCallback(async () => {
     try {
-      const res = await fetch(
-        `http://localhost:8000/api/courses/${slug}/comments/`
+      const res = await authorizedFetch(
+        `${BASE_URL}/courses/${slug}/comments/`
       );
       if (!res.ok) throw new Error('Не удалось получить комментарии');
       const data = await res.json();
@@ -27,30 +30,31 @@ export default function CourseComments() {
     fetchComments();
   }, [fetchComments]);
 
-  // Отправка нового комментария
+  // ✅ Отправка комментария
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!newText.trim()) return;
 
     setLoading(true);
     try {
-      const token = localStorage.getItem('accessToken');
-      const res = await fetch(
-        `http://localhost:8000/api/courses/${slug}/comments/`,
+      const res = await authorizedFetch(
+        `${BASE_URL}/courses/${slug}/comments/`,
         {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({ text: newText }),
         }
       );
+
       if (!res.ok) throw new Error('Не удалось отправить комментарий');
+
       setNewText('');
-      await fetchComments(); // обновляем список
+      await fetchComments(); // обновим список
     } catch (err) {
       console.error(err);
+      alert('Ошибка при отправке комментария');
     } finally {
       setLoading(false);
     }
@@ -81,7 +85,7 @@ export default function CourseComments() {
       {/* Список комментариев */}
       <div className="space-y-4">
         {comments.length === 0 && (
-          <p className="text-gray-500">Будьте первым, кто задаст вопрос.</p>
+          <p className="text-gray-500">Be the first to ask a question</p>
         )}
         {comments.map((c) => (
           <div
