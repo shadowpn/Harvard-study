@@ -50,7 +50,7 @@ h3 {
 }
 
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 2px;
 }
 ::-webkit-scrollbar-thumb {
   background: rgba(0, 0, 0, 0.2);
@@ -90,6 +90,17 @@ h3 {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+}
+
+.store-color {
+  color: linear-gradient(
+    270deg,
+    #a78bfa,
+    #60a5fa,
+    #34d399,
+    #f472b6,
+    #a78bfa
+  );
 }
 
 @media (max-width: 768px) {

@@ -54,9 +54,9 @@ export default function Sidebar() {
             key={item.path}
             href={item.path}
             className={`
-              flex flex-col items-center justify-center gap-1 p-2 md:flex-row md:items-start md:justify-start md:px-4 md:py-2
+              flex flex-col items-center font-extrabold justify-center gap-1 p-2 md:flex-row md:items-start md:justify-start md:px-4 md:py-2
               ${pathname === item.path
-                ? 'bg-blue-100 text-blue-700 font-medium'
+                ? 'bg-blue-100 text-blue-800 font-medium'
                 : 'text-gray-700 hover:bg-gray-100'}
             `}
           >

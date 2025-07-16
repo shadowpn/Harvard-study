@@ -15,11 +15,16 @@ export default function StorePage() {
   }, []);
 
   return (
+
+      <section className="p-6">
+        <h1 className="text-2xl font-bold mb-6 text-center sm:text-right store-color">Sense Store</h1>
     
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-6">
-      {courses.map(course => (
-        <CourseCard key={course.id} course={course} />
-      ))}
-    </div>
-  );
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {courses.map(course => (
+            <CourseCard key={course.id} course={course} />
+          ))}
+        </div>
+      </section>
+    );
+    
 }

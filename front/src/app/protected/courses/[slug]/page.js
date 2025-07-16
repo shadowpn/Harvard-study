@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import CourseVideoPlayer from '@/components/Course/CourseVideoPlayer';
 import CourseDescription from '@/components/Course/CourseDescription';
+import CourseComments from '@/components/Course/CourseComments';
 import Breadcrumbs from '@/components/Breadcrumbs/Breadcrumbs';
 
 export default function CoursePage() {
@@ -35,6 +36,7 @@ export default function CoursePage() {
       <CourseVideoPlayer videoUrl={course.video} />
 
       <CourseDescription text={course.description} />
+      <CourseComments />
     </main>
   );
 }

@@ -157,10 +157,10 @@ setTimeout(() => {
         </div>
 
         {/* Back Side */}
-        <div className="absolute w-full h-full bg-gray-100 rounded-2xl shadow-xl p-5 backface-hidden rotate-y-180 flex flex-col justify-between">
+        <div className="absolute w-full h-full bg-gray-100 rounded-2xl shadow-xl p-5 backface-hidden rotate-y-180 flex flex-col justify-between scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 hover:scrollbar-thumb-gray-500">
           <div>
             <h3 className="text-xl font-bold text-gray-800 mb-4">About course</h3>
-            <div className="text-sm text-gray-700 h-[370px] overflow-y-auto pr-2 mb-4">
+            <div className="text-sm text-gray-700 h-[370px] overflow-y-auto pr-2 mb-4 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-gray-100 hover:scrollbar-thumb-gray-500">
               <p>{course.description || 'Описание скоро будет добавлено.'}</p>
             </div>
           </div>
