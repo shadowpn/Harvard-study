@@ -1,7 +1,6 @@
 from django.db import models
 from django.conf import settings
 
-
 class Course(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True)
@@ -24,7 +23,6 @@ class Course(models.Model):
     level = models.CharField(max_length=50, default="Beginner")
     certificate = models.BooleanField(default=True)
     enrolled = models.PositiveIntegerField(default=0)
-
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

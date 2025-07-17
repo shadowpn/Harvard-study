@@ -7,6 +7,9 @@ from django.contrib.auth import get_user_model
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .serializers import UserSerializer, RegisterSerializer, CourseSerializer
+from rest_framework.generics import ListAPIView
+from courses.models import Course  # импортируем модель курса
+
 User = get_user_model()
 class RegisterView(APIView):
     def post(self, request):
@@ -30,13 +33,14 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         return super().validate(attrs)
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer   
-class EnrolledCoursesAPIView(APIView):
-    permission_classes = [IsAuthenticated]
 
-    def get(self, request):
-        enrolled = request.user.enrolled_courses.all()
-        serializer = CourseSerializer(enrolled, many=True)
-        return Response(serializer.data)
+class EnrolledCoursesAPIView(ListAPIView):
+    serializer_class = CourseSerializer
+    permission_classes = [IsAuthenticated]
+    
+    def get_queryset(self):
+        return self.request.user.enrolled_courses.all().order_by('-created_at')
+    
 # --- ПРОФИЛЬ ---
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
@@ -44,12 +48,6 @@ def user_profile(request):
     user = request.user
     serializer = UserSerializer(user)
     return Response(serializer.data)
-
-from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework import status
-from courses.models import Course  # импортируем модель курса
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])

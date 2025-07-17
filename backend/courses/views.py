@@ -7,7 +7,7 @@ from .models import Course, Comment
 from .serializers import CourseSerializer, CommentSerializer
 
 class CourseListAPIView(ListAPIView):
-    queryset = Course.objects.all()
+    queryset = Course.objects.all().order_by('-created_at')
     serializer_class = CourseSerializer
 
 class CourseDetailAPIView(RetrieveAPIView):
