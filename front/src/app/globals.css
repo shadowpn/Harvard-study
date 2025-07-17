@@ -21,7 +21,7 @@
   }
 }
 body {
-  background: var(--background);
+  
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
@@ -92,8 +92,8 @@ h3 {
   transform: translate(-50%, -50%);
 }
 
-.store-color {
-  color: linear-gradient(
+.btn-animated-gradient {
+  background-image: linear-gradient(
     270deg,
     #a78bfa,
     #60a5fa,
@@ -101,6 +101,31 @@ h3 {
     #f472b6,
     #a78bfa
   );
+  background-size: 400% 400%;
+  animation: gradientWave 10s ease infinite;
+  color: white;
+}
+
+.btn-animated-gradient-start {
+  background-image: linear-gradient(270deg, #c3edad, #b4b4ff) !important;
+  background-size: 200% 200% !important;
+  animation: gradientWaveMobile 6s ease infinite !important;
+}
+@keyframes gradientWaveMobile {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@media (max-width: 640px) {
+  .mobile-gradient-bg {
+    background-image: linear-gradient(270deg, #c3edad, #b4b4ff) !important;
+    background-size: 200% 200% !important;
+    animation: gradientWaveMobile 6s ease infinite !important;
+  }
 }
 
 @media (max-width: 768px) {
@@ -109,4 +134,15 @@ h3 {
     left: 30%;
   }
 }
+
+.neumorphic-button {
+  @apply bg-[#e0e0e0] text-[#333] rounded-[12px] px-[14px] py-[8px] transition-all duration-200 ease-in-out shadow-[6px_6px_12px_#bebebe,-6px_-6px_12px_#ffffff];
+}
+.neumorphic-button:hover {
+  @apply shadow-inner;
+}
+.active-nav {
+  @apply bg-[#e0e5ec] text-[#b2b2d5] rounded-[12px] px-[14px] py-[6px] shadow-inner;
+}
+
 

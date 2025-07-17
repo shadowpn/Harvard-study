@@ -2,27 +2,27 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { useParams } from 'next/navigation';
-import { authorizedFetch } from '@/utils/authHelpers'; // ✅ Добавили
+import { authorizedFetch } from '@/utils/authHelpers';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+
 export default function CourseComments() {
   const { slug } = useParams();
   const [comments, setComments] = useState([]);
   const [newText, setNewText] = useState('');
   const [loading, setLoading] = useState(false);
 
-
-  // ✅ Получение комментариев
   const fetchComments = useCallback(async () => {
     try {
-      const res = await authorizedFetch(
-        `${BASE_URL}/courses/${slug}/comments/`
-      );
+      const res = await authorizedFetch(`${BASE_URL}/courses/${slug}/comments/`);
       if (!res.ok) throw new Error('Не удалось получить комментарии');
+
       const data = await res.json();
-      setComments(data);
+      const results = Array.isArray(data) ? data : data.results || [];
+
+      setComments(results);
     } catch (err) {
-      console.error(err);
+      console.error('Ошибка при загрузке комментариев:', err);
     }
   }, [slug]);
 
@@ -30,7 +30,6 @@ export default function CourseComments() {
     fetchComments();
   }, [fetchComments]);
 
-  // ✅ Отправка комментария
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!newText.trim()) return;
@@ -51,7 +50,7 @@ export default function CourseComments() {
       if (!res.ok) throw new Error('Не удалось отправить комментарий');
 
       setNewText('');
-      await fetchComments(); // обновим список
+      await fetchComments();
     } catch (err) {
       console.error(err);
       alert('Ошибка при отправке комментария');
@@ -64,7 +63,6 @@ export default function CourseComments() {
     <section className="mt-8">
       <h2 className="text-xl font-semibold mb-4">Questions & Answers</h2>
 
-      {/* Форма */}
       <form onSubmit={handleSubmit} className="mb-6">
         <textarea
           className="w-full p-3 border border-gray-300 rounded-lg mb-2 resize-none focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -82,7 +80,6 @@ export default function CourseComments() {
         </button>
       </form>
 
-      {/* Список комментариев */}
       <div className="space-y-4">
         {comments.length === 0 && (
           <p className="text-gray-500">Be the first to ask a question</p>
@@ -94,7 +91,7 @@ export default function CourseComments() {
           >
             <div className="flex items-center mb-2">
               <span className="font-medium text-gray-800 mr-2">
-                {c.author_name || 'You'}
+                {c.author || 'You'}
               </span>
               <span className="text-xs text-gray-500">
                 {new Date(c.created_at).toLocaleString()}

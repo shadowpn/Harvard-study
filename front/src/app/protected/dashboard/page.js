@@ -1,16 +1,21 @@
 'use client';
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Image from 'next/image';
 import EnrolledCard from '@/components/EnrolledCard/EnrolledCard';
+import Pagination from '@/components/Pagination/Pagination';
 import { authorizedFetch } from '@/utils/authHelpers';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 export default function Dashboard() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const currentPage = parseInt(searchParams.get("page")) || 1;
+
   const [userData, setUserData] = useState(null);
   const [courses, setCourses] = useState([]);
+  const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -19,7 +24,7 @@ export default function Dashboard() {
       router.push("/auth");
       return;
     }
-  
+
     authorizedFetch(`${BASE_URL}/user/`)
       .then((res) => {
         if (!res.ok) throw new Error("Invalid token");
@@ -34,22 +39,23 @@ export default function Dashboard() {
         localStorage.removeItem("refresh");
         router.push("/auth");
       });
-  
-    authorizedFetch(`${BASE_URL}/enrolled-courses/`)
+
+      authorizedFetch(`${BASE_URL}/enrolled-courses/?page=${currentPage}`)
       .then((res) => {
         if (!res.ok) throw new Error("Failed to fetch enrolled courses");
         return res.json();
       })
       .then((data) => {
-        setCourses(data);
+        setCourses(data.results ?? []); // ✅ используем results
+        setTotalPages(Math.ceil((data.count / 8) / (data.page_size ?? 1))); // если page_size не приходит — использовать 1
         setLoading(false);
       })
       .catch((err) => {
         console.error("Failed to load courses", err);
         setLoading(false);
       });
-  }, []);
-  
+  }, [currentPage]);
+
   const handleUnenroll = (courseId) => {
     setCourses(prev => prev.filter(course => course.id !== courseId));
   };
@@ -57,27 +63,42 @@ export default function Dashboard() {
   if (loading || !userData) return <p>Loading dashboard...</p>;
 
   return (
-    <main className="p-6">
-      <h1 className="text-2xl font-bold mb-4 flex items-center gap-2">
+    <main className="px-0 sm:px-6 py-4">
+      <h1 className="text-xl sm:text-2xl font-bold mb-4 flex items-center gap-2">
         Hi, {userData.first_name}
-        <Image src="/icons/greating.png" alt="wave" width={32} height={32} className="inline-block" />
+        <Image
+          src="/icons/greating.png"
+          alt="wave"
+          width={32}
+          height={32}
+          className="inline-block"
+        />
       </h1>
 
       {courses.length > 0 ? (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
-          {courses.map(course => (
+        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-6 mt-4">
+          {courses.map((course) => (
             <EnrolledCard key={course.id} course={course} onUnenroll={handleUnenroll} />
           ))}
         </div>
       ) : (
         <div className="text-gray-600 mt-10">
-          <h2 className="text-xl font-semibold mb-2">You don’t have any courses yet</h2>
+          <h2 className="text-lg sm:text-xl font-semibold mb-2">
+            You don’t have any courses yet
+          </h2>
           <p>
             Go to the <strong>Store</strong> section to choose your path
-            <Image src="/icons/pathstudy.png" alt="graduation cap" width={32} height={32} className="inline-block ml-1" />
+            <Image
+              src="/icons/pathstudy.png"
+              alt="graduation cap"
+              width={32}
+              height={32}
+              className="inline-block ml-1"
+            />
           </p>
         </div>
       )}
+      <Pagination currentPage={currentPage} totalPages={totalPages} />
     </main>
   );
 }

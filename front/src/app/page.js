@@ -19,7 +19,7 @@ export default function HomePage() {
   }, [router]);
 
   return (
-    <main className="flex flex-col items-center justify-center h-screen">
+    <main className="flex flex-col items-center justify-center h-screen mobile-gradient-bg">
       <h1 className="text-2xl font-bold text-gray-800 mb-4">Welcome to Sense StudyHub</h1>
       <p className="text-gray-600">Checking your login status...</p>
     </main>

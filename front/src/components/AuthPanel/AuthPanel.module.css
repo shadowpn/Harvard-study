@@ -84,13 +84,14 @@
 
 .button {
   padding: 10px;
-  background: linear-gradient(135deg, #c3edad, #b4b4ff);
-  color: #4f4fef; 
+  background: linear-gradient(135deg, #c3edad, #2828f3);
+  color: #dedde7; 
   font-weight: bold;
   border: none;
   border-radius: 6px;
   cursor: pointer;
   transition: background 0.3s;
+  
 }
 
 .button:hover {
@@ -104,7 +105,57 @@
 }
 
 .switch span {
-  color: #00c4ff;
+  color: #2828f3;
   cursor: pointer;
   text-decoration: underline;
+  font-weight: 600;
 }
+
+@media (max-width: 640px) {
+  .wrapper {
+    padding: 20px;
+    height: auto;
+  }
+
+  .panel {
+    width: 100%;
+    height: auto;
+    border-radius: 12px;
+    box-shadow: none;
+    flex-direction: column;
+    overflow: visible;
+    background-image: linear-gradient(270deg, #c3edad, #b4b4ff) !important;
+  }
+
+  .quarterCircle {
+    display: none; /* Скрыть декоративный блок */
+  }
+
+  .formBlock {
+    position: static;
+    width: 100%;
+    height: auto;
+    margin: 20px auto;
+    padding: 10px;
+    box-sizing: border-box;
+  }
+
+  .heading {
+    font-size: 20px;
+  }
+
+  .input {
+    font-size: 14px;
+  }
+
+  .switch {
+    font-size: 12px;  
+  }
+
+.button {
+  background-color: #c3edad;
+}
+
+}
+
+  

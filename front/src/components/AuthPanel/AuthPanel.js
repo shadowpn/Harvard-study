@@ -96,7 +96,7 @@ export default function AuthPanel() {
   };
 
   return (
-    <div className={styles.wrapper}>
+    <div className={`${styles.wrapper}`}> 
       <div className={styles.panel}>
         <div
           className={`${styles.quarterCircle} ${

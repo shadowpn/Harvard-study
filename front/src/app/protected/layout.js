@@ -13,7 +13,7 @@ export default function DashboardLayout({ children }) {
           <Sidebar />
         </aside>
 
-        <main className="flex-1 mt-[60px] p-6 overflow-auto md:ml-60">
+        <main className="min-h-screen flex-1 mt-[60px] p-3 overflow-auto md:ml-60">
           {children}
         </main>
       </div>

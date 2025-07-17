@@ -73,7 +73,8 @@ export default function CourseCard({ course }) {
         {/* Front Side */}
         <div className="absolute w-full h-full bg-white rounded-2xl shadow-xl overflow-hidden backface-hidden flex flex-col">
           <BaseCourseCard course={course} onClick={handleImageClick}>
-            <div className="text-sm text-gray-700 space-y-1 mb-4 mt-auto">
+            <div className="text-[12px] sm:text-sm text-gray-700 space-y-1 mb-4 mt-auto">
+             <div className=" mb-0">
               <p>
                 <Image src="/icons/rating.png" width={20} height={20} alt="Rating Icon" className="inline-block mr-1" unoptimized />
                 {course.rating} / 5 &nbsp;
@@ -90,7 +91,8 @@ export default function CourseCard({ course }) {
                 <Image src="/icons/start_course.png" width={20} height={20} alt="Start Date Icon" className="inline-block mr-1" unoptimized />
                 Start: {course.start_date}
               </p>
-              <p>
+              </div>
+              <div className="flex flex-wrap sm:flex-nowrap items-center gap-2">
                 <span className={`inline-block ${levelColor} px-2 py-0.5 rounded text-xs mr-2`}>
                   <Image src="/icons/level.png" width={20} height={20} alt="Level Icon" className="inline-block mr-1" unoptimized />
                   {course.level}
@@ -99,27 +101,30 @@ export default function CourseCard({ course }) {
                   <Image src="/icons/certificate.png" width={20} height={20} alt="Certificate Icon" className="inline-block mr-1" unoptimized />
                   Certificate
                 </span>
-              </p>
+              </div>
             </div>
 
             {/* Buttons */}
             <div className="mt-auto flex gap-2">
               <button
-                className={`${
-                  added ? 'bg-gray-300 text-gray-500 cursor-not-allowed' : 'bg-green-600 hover:bg-green-700 text-white'
-                } font-semibold px-4 py-2 rounded w-1/2`}
+                className={`w-1/2 px-4 py-2 rounded font-semibold text-xs sm:text-base 
+                  ${added
+                    ? 'text-gray-600 bg-[#b2b2d5] shadow-inner border border-gray-200'
+                    : 'btn-animated-gradient shadow-inner hover:shadow-md active:shadow-none'
+                  }`}
                 onClick={() => handleBuy(course.id)}
                 disabled={added}
               >
                 {added ? 'Added' : 'Buy'}
               </button>
+
               <button
-                className="border border-gray-300 text-gray-700 hover:bg-gray-100 px-4 py-2 rounded w-1/2"
+                className="w-1/2 px-4 py-2 rounded font-semibold text-xs sm:text-base text-gray-800 bg-[#e2f0d7] shadow-inner hover:shadow-md active:shadow-none"
                 onClick={handleFlip}
               >
                 Learn More
               </button>
-            </div>
+          </div>
           </BaseCourseCard>
         </div>
 
