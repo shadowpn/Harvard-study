@@ -8,7 +8,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from .serializers import UserSerializer, RegisterSerializer, CourseSerializer
 from rest_framework.generics import ListAPIView
-from courses.models import Course  # импортируем модель курса
+from courses.models import Course  
 
 User = get_user_model()
 class RegisterView(APIView):
@@ -18,7 +18,7 @@ class RegisterView(APIView):
             serializer.save()
             return Response({'message': 'User created'}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-# --- JWT АВТОРИЗАЦИЯ ---
+
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
     @classmethod
     def get_token(cls, user):
@@ -41,7 +41,6 @@ class EnrolledCoursesAPIView(ListAPIView):
     def get_queryset(self):
         return self.request.user.enrolled_courses.all().order_by('-created_at')
     
-# --- ПРОФИЛЬ ---
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def user_profile(request):
@@ -56,10 +55,10 @@ def unenroll_course(request):
     try:
         course = Course.objects.get(id=course_id)
     except Course.DoesNotExist:
-        return Response({'error': 'Курс не найден'}, status=status.HTTP_404_NOT_FOUND)
+        return Response({'error': 'The course was not found'}, status=status.HTTP_404_NOT_FOUND)
 
     user = request.user
     user.enrolled_courses.remove(course)
 
-    return Response({'message': 'Курс успешно удалён из профиля'}, status=status.HTTP_200_OK)
+    return Response({'message': 'The course has been successfully removed from your profile'}, status=status.HTTP_200_OK)
 

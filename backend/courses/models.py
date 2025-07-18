@@ -13,12 +13,12 @@ class Course(models.Model):
 
     rating = models.DecimalField(max_digits=2, decimal_places=1, default=0)
     price = models.DecimalField(max_digits=6, decimal_places=2)
-    duration = models.PositiveIntegerField(default=0, help_text="Время прохождения в часах")
+    duration = models.PositiveIntegerField(default=0, help_text="Duration in hours")
     start_date = models.DateField(blank=True, null=True)
 
     is_unlimited = models.BooleanField(
         default=False,
-        help_text="Отметь, если курс доступен бессрочно"
+        help_text="Mark if the course is available indefinitely"
     )
     level = models.CharField(max_length=50, default="Beginner")
     certificate = models.BooleanField(default=True)
@@ -44,7 +44,7 @@ class Comment(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['-created_at']  # новые сначала
+        ordering = ['-created_at'] 
 
     def __str__(self):
         return f'{self.user} → {self.course}'    

@@ -15,9 +15,9 @@ class CourseSerializer(serializers.ModelSerializer):
         return None
 
 class CommentSerializer(serializers.ModelSerializer):
-    # Показываем имя пользователя, который оставил комментарий
+    
     author = serializers.StringRelatedField(source='user.username', read_only=True)
-    # Дочерние ответы
+    
     replies = serializers.SerializerMethodField()
 
     class Meta:
@@ -27,18 +27,18 @@ class CommentSerializer(serializers.ModelSerializer):
             'author',
             'text',
             'created_at',
-            'parent',      # id родительского комментария (если есть)
-            'replies',     # вложенные ответы
+            'parent',      
+            'replies',     
         ]
         read_only_fields = ['id', 'author', 'created_at', 'replies']
     
     def get_replies(self, obj):
-        # берем все непосредственные ответы и сериализуем их
-        qs = obj.replies.order_by('-created_at')  # самые свежие первыми
+        
+        qs = obj.replies.order_by('-created_at')  
         return CommentSerializer(qs, many=True, context=self.context).data
 
     def create(self, validated_data):
-        # Автоматически подставляем user из request
+        
         course = validated_data.pop('course')
         user   = validated_data.pop('user')
         return Comment.objects.create(course=course, user=user, **validated_data)
