@@ -3,7 +3,8 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { authorizedFetch } from '@/utils/authHelpers'; // ✅ Добавили
+import { authorizedFetch } from '@/utils/authHelpers'; 
+import Logo from '../Logo'
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
@@ -19,10 +20,9 @@ export default function Sidebar() {
         const data = await res.json();
         setUserData(data);
 
-        // 💾 Сохраняем в localStorage, если хочешь кэшировать
         localStorage.setItem('userData', JSON.stringify(data));
       } catch (err) {
-        console.error('Ошибка получения пользователя:', err);
+        console.error('Error retrieving use:', err);
       }
     };
 
@@ -43,9 +43,10 @@ export default function Sidebar() {
         flex md:block items-center justify-around
       `}
     >
-      {/* Welcome block (desktop only) */}
+      <Logo />
       {userData && (
         <div className="hidden md:flex items-center gap-1 p-4">
+          
           <Image
             src="/icons/aсtive.png"
             alt="greeting icon"
@@ -59,7 +60,6 @@ export default function Sidebar() {
         </div>
       )}
 
-      {/* Nav menu */}
       <nav className="flex flex-row md:flex-col w-full md:space-y-2 justify-around md:justify-start">
         {menu.map((item) => (
           <Link

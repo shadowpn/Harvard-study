@@ -141,8 +141,9 @@ h3 {
 .neumorphic-button:hover {
   @apply shadow-inner;
 }
-.active-nav {
-  @apply bg-[#e0e5ec] text-[#b2b2d5] rounded-[12px] px-[14px] py-[6px] shadow-inner;
+
+.neumorphic-button.font-bold {
+  @apply text-indigo-500 hover:text-indigo-700;
 }
 
 

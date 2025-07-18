@@ -8,13 +8,13 @@ export default function HomePage() {
 
   useEffect(() => {
     const token = localStorage.getItem('access');
-    console.log('🔍 Access token:', token);
+    console.log('Access token:', token);
 
     if (!token) {
-      console.log('🚨 No token found. Redirecting to /auth...');
+      console.log(' No token found. Redirecting to /auth...');
       router.replace('/auth');
     } else {
-      console.log('✅ Token found. User is logged in.');
+      console.log('Token found. User is logged in.');
     }
   }, [router]);
 

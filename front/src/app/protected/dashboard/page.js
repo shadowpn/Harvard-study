@@ -46,15 +46,15 @@ export default function Dashboard() {
         return res.json();
       })
       .then((data) => {
-        setCourses(data.results ?? []); // ✅ используем results
-        setTotalPages(Math.ceil((data.count / 8) / (data.page_size ?? 1))); // если page_size не приходит — использовать 1
+        setCourses(data.results ?? []); 
+        setTotalPages(Math.ceil((data.count / 8) / (data.page_size ?? 1))); 
         setLoading(false);
       })
       .catch((err) => {
         console.error("Failed to load courses", err);
         setLoading(false);
       });
-  }, [currentPage]);
+  }, [router, currentPage]);
 
   const handleUnenroll = (courseId) => {
     setCourses(prev => prev.filter(course => course.id !== courseId));
@@ -98,7 +98,11 @@ export default function Dashboard() {
           </p>
         </div>
       )}
-      <Pagination currentPage={currentPage} totalPages={totalPages} />
+        {courses.length < 8 && <div className="h-64"></div>}
+        <div className="flex justify-center mt-auto mb-28 sm:mb-0">
+          <Pagination currentPage={currentPage} totalPages={totalPages} />
+        </div>
+        
     </main>
   );
 }

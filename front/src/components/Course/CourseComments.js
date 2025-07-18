@@ -15,14 +15,14 @@ export default function CourseComments() {
   const fetchComments = useCallback(async () => {
     try {
       const res = await authorizedFetch(`${BASE_URL}/courses/${slug}/comments/`);
-      if (!res.ok) throw new Error('Не удалось получить комментарии');
+      if (!res.ok) throw new Error('Failed to retrieve comments');
 
       const data = await res.json();
       const results = Array.isArray(data) ? data : data.results || [];
 
       setComments(results);
     } catch (err) {
-      console.error('Ошибка при загрузке комментариев:', err);
+      console.error('Error loading comments:', err);
     }
   }, [slug]);
 
@@ -47,13 +47,13 @@ export default function CourseComments() {
         }
       );
 
-      if (!res.ok) throw new Error('Не удалось отправить комментарий');
+      if (!res.ok) throw new Error('Failed to send comment');
 
       setNewText('');
       await fetchComments();
     } catch (err) {
       console.error(err);
-      alert('Ошибка при отправке комментария');
+      alert('Error sending comment');
     } finally {
       setLoading(false);
     }
@@ -74,7 +74,7 @@ export default function CourseComments() {
         <button
           type="submit"
           disabled={loading}
-          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50"
+          className="px-4 py-2 bg-[#b4b4ff] text-white rounded-lg font-bold hover:bg-[#5e2eec] disabled:opacity-50"
         >
           {loading ? 'Posting…' : 'Post Comment'}
         </button>

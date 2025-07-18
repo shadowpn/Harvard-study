@@ -1,12 +1,10 @@
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
-// 🔐 Получить заголовок авторизации
 export function getAuthHeader() {
   const token = localStorage.getItem("access");
   return token ? { Authorization: `Bearer ${token}` } : {};
 }
 
-// 🔄 Обновление access токена через refresh
 export const refreshToken = async () => {
   const refresh = localStorage.getItem("refresh");
   if (!refresh) {
@@ -24,7 +22,7 @@ export const refreshToken = async () => {
     });
 
     if (!response.ok) {
-      console.error("🔁 Refresh token request failed");
+      console.error(" Refresh token request failed");
       return null;
     }
 
@@ -32,14 +30,13 @@ export const refreshToken = async () => {
     localStorage.setItem("access", data.access);
     return data.access;
   } catch (error) {
-    console.error("⚠️ Error refreshing token:", error);
+    console.error("Error refreshing token:", error);
     return null;
   }
 };
 
-// 🛡️ Авторизованный fetch с автообновлением access токена
 export const authorizedFetch = async (url, options = {}) => {
-  // Первый запрос с текущим токеном
+  
   let res = await fetch(url, {
     ...options,
     headers: {
@@ -48,10 +45,9 @@ export const authorizedFetch = async (url, options = {}) => {
     },
   });
 
-  // Если access протух — обновляем и повторяем
   if (res.status === 401) {
     const newAccess = await refreshToken();
-    if (!newAccess) throw new Error("🚫 Unauthorized: failed to refresh token");
+    if (!newAccess) throw new Error("Unauthorized: failed to refresh token");
 
     res = await fetch(url, {
       ...options,
@@ -66,7 +62,6 @@ export const authorizedFetch = async (url, options = {}) => {
   return res;
 };
 
-// 🚪 Выход из аккаунта
 export function logoutUser() {
   localStorage.removeItem("access");
   localStorage.removeItem("refresh");

@@ -1,9 +1,8 @@
-// components/Pagination.js
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
 
-export default function Pagination({ currentPage, totalPages }) {
+export default function Pagination({ totalPages, currentPage }) {
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -13,39 +12,56 @@ export default function Pagination({ currentPage, totalPages }) {
     router.push(`?${params.toString()}`);
   };
 
-  const pageRange = () => {
-    const delta = 2;
+  const generatePageRange = () => {
     const range = [];
-    for (let i = Math.max(1, currentPage - delta); i <= Math.min(totalPages, currentPage + delta); i++) {
-      range.push(i);
+    const delta = 1;
+
+    for (let i = 1; i <= totalPages; i++) {
+      if (
+        i === 1 ||
+        i === totalPages ||
+        (i >= currentPage - delta && i <= currentPage + delta)
+      ) {
+        range.push(i);
+      } else if (
+        i === currentPage - delta - 1 ||
+        i === currentPage + delta + 1
+      ) {
+        range.push('...');
+      }
     }
-    return range;
+
+    return [...new Set(range)];
   };
 
   return (
-    <nav className="mt-4">
+    <nav className="mt-6">
       <ul className="flex justify-center flex-wrap gap-2">
         {currentPage > 1 && (
           <li>
             <button
               onClick={() => goToPage(currentPage - 1)}
-              className="neumorphic-button px-3 py-1 text-sm"
+              className="neumorphic-button font-bold"
             >
               ‹
             </button>
           </li>
         )}
 
-        {pageRange().map((num) => (
-          <li key={num}>
-            {num === currentPage ? (
-              <span className="active-nav px-3 py-1 text-sm">{num}</span>
+        {generatePageRange().map((item, index) => (
+          <li key={index}>
+            {item === '...' ? (
+              <span className="text-gray-400 px-2">…</span>
+            ) : item === currentPage ? (
+              <span className="neumorphic-button bg-indigo-300 text-white font-semibold px-4 py-1 shadow-inner">
+                {item}
+              </span>
             ) : (
               <button
-                onClick={() => goToPage(num)}
-                className="neumorphic-button px-3 py-1 text-sm"
+                onClick={() => goToPage(item)}
+                className="neumorphic-button font-medium"
               >
-                {num}
+                {item}
               </button>
             )}
           </li>
@@ -55,7 +71,7 @@ export default function Pagination({ currentPage, totalPages }) {
           <li>
             <button
               onClick={() => goToPage(currentPage + 1)}
-              className="neumorphic-button px-3 py-1 text-sm"
+              className="neumorphic-button font-bold"
             >
               ›
             </button>

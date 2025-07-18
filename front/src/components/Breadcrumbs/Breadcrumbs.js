@@ -1,4 +1,3 @@
-// components/Breadcrumbs.js
 'use client';
 
 import Link from 'next/link';
@@ -21,7 +20,6 @@ export default function Breadcrumbs({ title }) {
         md:text-[14px]     /* desktop: 14px */
       "
     >
-      {/* Ссылка на My Courses */}
       <Link
         href="/dashboard"
         className="text-blue-800 hover:underline whitespace-nowrap font-bold"
@@ -29,12 +27,10 @@ export default function Breadcrumbs({ title }) {
         My Courses
       </Link>
 
-      {/* Разделитель */}
       <span className="text-gray-400" aria-hidden="true">
         /
       </span>
 
-      {/* Текущий пункт */}
       <span
         className="text-gray-700 truncate whitespace-nowrap"
         title={title}

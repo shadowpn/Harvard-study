@@ -1,4 +1,4 @@
-// components/Course/CourseVideoPlayer.js
+
 'use client';
 
 export default function CourseVideoPlayer({ videoUrl }) {

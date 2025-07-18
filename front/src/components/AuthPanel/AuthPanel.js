@@ -1,5 +1,4 @@
 'use client';
-
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import styles from './AuthPanel.module.css';
@@ -53,18 +52,17 @@ export default function AuthPanel() {
       try {
         data = JSON.parse(text);
       } catch (err) {
-        console.error('❌ Ответ не JSON:', text);
+        console.error('The response is not in JSON format:', text);
         alert('Invalid server response. Try again later.');
         return;
       }
 
       if (res.ok) {
         if (isLogin) {
-          // ✅ Сохраняем токены
+          
           localStorage.setItem('access', data.access);
           localStorage.setItem('refresh', data.refresh);
 
-          // ✅ Получаем userData
           try {
             const resUser = await fetch(`${BASE_URL}/user/`, {
               headers: {
@@ -86,7 +84,7 @@ export default function AuthPanel() {
           setIsLogin(true);
         }
       } else {
-        console.log('❌ Error in login or password:', data);
+        console.log(' Error in login or password:', data);
         alert(data.detail || data.message || 'Something went wrong');
       }
     } catch (error) {
@@ -97,7 +95,7 @@ export default function AuthPanel() {
 
   return (
     <div className={`${styles.wrapper}`}> 
-      <div className={styles.panel}>
+      <div className={`${styles.panel}`}>
         <div
           className={`${styles.quarterCircle} ${
             isLogin ? styles.topLeft : styles.bottomRight

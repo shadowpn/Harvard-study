@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import BaseCourseCard from '../BaseCourseCard/BaseCourseCard';
 import { authorizedFetch } from '@/utils/authHelpers';
+import FormattedText from '@/components/FormattedText';
 import Image from 'next/image';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
@@ -133,7 +134,10 @@ export default function CourseCard({ course }) {
           <div>
             <h3 className="text-xl font-bold text-gray-800 mb-4">About course</h3>
             <div className="text-sm text-gray-700 h-[370px] overflow-y-auto pr-2 mb-4 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-gray-100 hover:scrollbar-thumb-gray-500">
-              <p>{course.description || 'Описание скоро будет добавлено.'}</p>
+            <FormattedText
+              text={course.description || 'Описание скоро будет добавлено.'}
+             className="text-gray-600"
+            />
             </div>
           </div>
           <button

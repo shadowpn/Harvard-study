@@ -1,36 +1,33 @@
 'use client';
-
 import { useEffect, useState } from 'react';
 import CourseCard from '@/components/CourseCard/CourseCard';
 import { authorizedFetch } from '@/utils/authHelpers';
 import Pagination from '@/components/Pagination/Pagination';
-import { useSearchParams, useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL;
-
 export default function StorePage() {
   const [courses, setCourses] = useState([]);
   const [totalPages, setTotalPages] = useState(1);
 
   const searchParams = useSearchParams();
-  const router = useRouter();
-  const page = parseInt(searchParams.get('page') || '1');
+  const currentPage = parseInt(searchParams.get('page') || '1');
 
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const res = await authorizedFetch(`${BASE_URL}/courses/?page=${page}`);
-        if (!res.ok) throw new Error('Ошибка при получении курсов');
+        const res = await authorizedFetch(`${BASE_URL}/courses/?page=${currentPage}`);
+        if (!res.ok) throw new Error('Error at get course');
         const data = await res.json();
         setCourses(data.results);
-        setTotalPages(data.total_pages || 1); // предполагается что API возвращает total_pages
+        setTotalPages(data.total_pages || 1); 
       } catch (error) {
-        console.error('Ошибка загрузки курсов:', error);
+        console.error('Error loading course:', error);
       }
     };
 
     fetchCourses();
-  }, [page]);
+  }, [currentPage]);
 
   return (
     <section className="px-0 sm:px-6 py-4">
@@ -45,7 +42,7 @@ export default function StorePage() {
       </div>
 
       <div className="flex justify-center mt-auto pb-24 sm:pb-0">
-        <Pagination currentPage={page} totalPages={totalPages} />
+        <Pagination currentPage={currentPage} totalPages={totalPages} />
       </div>
     </section>
   );
