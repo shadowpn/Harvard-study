@@ -52,11 +52,11 @@ This project is **fundamentally distinct** from previous CS50W assignments in th
 
 10. **Modern UI & Animations**
     Neumorphic buttons, gradient-wave CSS animations (@keyframes), soft shadows, and consistent card layouts deliver a polished, engaging user experience.
-    
+
 ---
 
 ## File Structure
-
+```
 capstone/
 │
 ├── backend/                             # Django REST API
@@ -93,6 +93,7 @@ capstone/
     ├── tailwind.config.js               # Tailwind customization
     ├── next.config.mjs                  # Next.js config
     └── package.json                     # Frontend deps & scripts
+```
 
 ## How to Run
 
